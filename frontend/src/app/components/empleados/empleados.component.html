@@ -1,0 +1,111 @@
+<div>
+  <div class="search-container">
+    <div>
+      <!-- Campo de búsqueda -->
+      <div>
+        <h3 for="searchTerm">Buscar Empleado: </h3>
+        <input
+          type="text"
+          id="searchTerm"
+          class="search-box"
+          [(ngModel)]="searchTerm"
+          placeholder="Buscar por ID de empleado"
+        />
+        <button (click)="buscarEmpleado()">Buscar</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mostrar error si hay alguno -->
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Tabla con el empleado encontrado -->
+  <div *ngIf="empleadoEncontrado">
+    <h2>Empleado Encontrado</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Cargo</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ empleadoEncontrado.employee_id }}</td>
+          <td>{{ empleadoEncontrado.first_name }} {{ empleadoEncontrado.last_name }}</td>
+          <td>{{ empleadoEncontrado.job_id }}</td>
+          <td>{{ empleadoEncontrado.email }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- Formulario para editar empleado -->
+  <div *ngIf="empleadoSeleccionado">
+    <h3>Editar Empleado</h3>
+    <form (ngSubmit)="actualizarEmpleado()">
+      <input
+        type="text"
+        [(ngModel)]="empleadoSeleccionado.first_name"
+        name="first_name"
+        required
+        placeholder="Nombre"
+      />
+      <input
+        type="text"
+        [(ngModel)]="empleadoSeleccionado.last_name"
+        name="last_name"
+        required
+        placeholder="Apellido"
+      />
+      <input
+        type="email"
+        [(ngModel)]="empleadoSeleccionado.email"
+        name="email"
+        required
+        placeholder="Email"
+      />
+      <input
+        type="text"
+        [(ngModel)]="empleadoSeleccionado.job_id"
+        name="job_id"
+        required
+        placeholder="Cargo"
+      />
+      <button type="submit">Actualizar</button>
+      <button type="button" (click)="empleadoSeleccionado = null">Cancelar</button>
+    </form>
+  </div>
+  <h2>Lista de Empleados</h2>
+
+  <!-- Tabla de empleados -->
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Cargo</th>
+        <th>Email</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let empleado of empleados">
+        <td>{{ empleado.employee_id }}</td>
+        <td>{{ empleado.first_name }} {{ empleado.last_name }}</td>
+        <td>{{ empleado.job_id }}</td>
+        <td>{{ empleado.email }}</td>
+        <td>
+          <button (click)="seleccionarEmpleado(empleado)">Editar</button>
+          <button (click)="eliminarEmpleado(empleado.employee_id)">
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
